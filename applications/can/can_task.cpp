@@ -3,7 +3,6 @@
 sp::CAN can1(&hcan1);
 
 extern float trigger_given_torque;
-extern float absolute_angle_add;
 extern sp::LK_Motor trigger_motor;
 
 // 电机使能
@@ -18,11 +17,10 @@ extern "C" void can_task(void * argument)
   osDelay(500);  // 等待系统稳定
 
   while (1) {
-    // trigger_motor.cmd_torque(trigger_given_torque);
-    // trigger_motor.write_torque(can1.tx_data);
-    // trigger_motor.cmd_angle(absolute_angle_add);
-    // trigger_motor.write_angle_increment(can1.tx_data);
-    // can1.send(trigger_motor.tx_id);
+    trigger_motor.cmd_torque(trigger_given_torque);
+    trigger_motor.write_torque(can1.tx_data);
+    //trigger_motor.write_state2(can1.tx_data);
+    can1.send(trigger_motor.tx_id);
 
     //can_send_freq = (can_send_freq + 1) % 100;
     osDelay(1);
